@@ -238,7 +238,7 @@ void getSettings(int fd) {
 
     //separate voltage and current values
     double voltage = std::stod(data.substr(0, 3), NULL);
-    double current = std::stod(data.substr(3, 5), NULL);
+    double current = std::stod(data.substr(3, 3), NULL);
 
     voltage /= 10;
     current /= 10;
@@ -288,8 +288,8 @@ void getCurrent(int fd) {
 
     //separate the voltage, current, and mode
     double voltage = std::stod(data.substr(0, 4), NULL);
-    double current = std::stod(data.substr(4, 7), NULL);
-    bool mode = (bool)std::atoi(data.substr(8, 8).c_str());
+    double current = std::stod(data.substr(4, 4), NULL);
+    bool mode = (bool)std::atoi(data.substr(8, 1).c_str());
     //get the output mode
     bool output = getOutputStatus(fd);
 
@@ -396,7 +396,7 @@ void getDeviceCapabilities(int fd) {
 
     //separate the voltage and current
     double voltage = std::stod(data.substr(0, 3), NULL);
-    double current = std::stod(data.substr(3, 5), NULL);
+    double current = std::stod(data.substr(3, 3), NULL);
 
     voltage /= 10;
     current /= 10;

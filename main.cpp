@@ -46,16 +46,20 @@ int main(int argc, char** argv) {
     //wait for the user to select a serial port
     setInteractive();
 
-    if (!getSerialPort(portAddr)) {
-        endwin();
-        printf("Error: Invalid Serial Port\n");
-        exit(-1);
+    if (argc>1) {
+       snprintf(portAddr, 255, "%s", argv[1]);
     } else {
-        erase();
-        move(0, 0);
-        printw("Device is at: %s", portAddr);
-        refresh();
+       if (!getSerialPort(portAddr)) {
+           endwin();
+           printf("Error: Invalid Serial Port\n");
+           exit(-1);
+       }
     }
+
+    erase();
+    move(0, 0);
+    printw("Device is at: %s", portAddr);
+    refresh();
 
     //nothing to wait on anymore
     setNonblocking();
