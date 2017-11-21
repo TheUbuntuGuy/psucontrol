@@ -19,6 +19,7 @@ extern "C" {
     void setNonblocking();
     void writeVersion();
     void printHelp();
+    void flushArrows();
 
 #ifdef	__cplusplus
 }
