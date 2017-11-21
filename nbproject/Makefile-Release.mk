@@ -44,7 +44,7 @@ CFLAGS=
 
 # CC Compiler Flags
 CCFLAGS=
-CXXFLAGS=
+CXXFLAGS= -std=c++11
 
 # Fortran Compiler Flags
 FFLAGS=
@@ -53,7 +53,7 @@ FFLAGS=
 ASFLAGS=
 
 # Link Libraries and Options
-LDLIBSOPTIONS=
+LDLIBSOPTIONS= -lncurses
 
 # Build Targets
 .build-conf: ${BUILD_SUBPROJECTS}
