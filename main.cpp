@@ -32,6 +32,7 @@ double maxVoltage = 0;
 double maxCurrent = 0;
 double currVoltage = 0;
 double currCurrent = 0;
+double currentDivider = 10;
 
 int main(int argc, char** argv) {
 
