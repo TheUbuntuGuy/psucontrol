@@ -69,7 +69,7 @@ void setCurrent(int fd, double current) {
         return;
     }
 
-    current *= 10;
+    current *= currentDivider;
 
     sprintf(param, "%03d", (int) current);
 
@@ -241,7 +241,7 @@ void getSettings(int fd) {
     double current = std::stod(data.substr(3, 3), NULL);
 
     voltage /= 10;
-    current /= 10;
+    current /= currentDivider;
 
     currVoltage = voltage;
     currCurrent = current;
@@ -294,6 +294,9 @@ void getCurrent(int fd) {
     bool output = getOutputStatus(fd);
 
     voltage /= 100;
+
+    // Empirically, the 1685B still reports its operating current in the same
+    // format, so we do *not* use currentDivider here
     current /= 100;
 
     move((LINES / 2) - 1, (COLS / 2) - 23);
@@ -399,7 +402,15 @@ void getDeviceCapabilities(int fd) {
     double current = std::stod(data.substr(3, 3), NULL);
 
     voltage /= 10;
-    current /= 10;
+
+    if (voltage >= 60.0) {
+        // the 1685B has one more digit of current precision everywhere
+        currentDivider = 100;
+    } else {
+        currentDivider = 10;
+    }
+
+    current /= currentDivider;
 
     maxCurrent = current;
     maxVoltage = voltage;

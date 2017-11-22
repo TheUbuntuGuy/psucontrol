@@ -20,6 +20,7 @@ extern "C" {
     extern bool outputOn;
     extern double currVoltage;
     extern double currCurrent;
+    extern double currentDivider;
 
     bool getSerialPort(char* portAddr);
     int set_interface_attribs(int fd, speed_t speed, int parity);
