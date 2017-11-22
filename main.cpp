@@ -25,6 +25,8 @@
 
 using namespace std;
 
+const uint32_t nonBlockingTimeoutMs = 10;
+
 bool outputOn = false;
 double maxVoltage = 0;
 double maxCurrent = 0;
@@ -98,8 +100,10 @@ int main(int argc, char** argv) {
         getSettings(fd);
         getCurrent(fd);
 
-        //0.5 seconds
-        usleep(500000);
+        if (ch == ERR) {
+            // Wait 0.05s if no character was available last time
+            usleep(50000);
+        }
 
         //get any input, if available
         ch = getch();
@@ -145,10 +149,18 @@ int main(int argc, char** argv) {
             //increase voltage by one step
             currVoltage += 0.1;
             setVoltage(fd, currVoltage);
+
+            //don't let arrow keys sit in the buffer (to prevent accidental
+            //overrun)
+            flushArrows();
         } else if (ch == KEY_DOWN) {
             //decrease voltage by one step
             currVoltage -= 0.1;
             setVoltage(fd, currVoltage);
+
+            //don't let arrow keys sit in the buffer (to prevent accidental
+            //overrun)
+            flushArrows();
         }
         //exit on q pressed
     } while (ch != 'q');
@@ -186,7 +198,7 @@ void setInteractive() {
 void setNonblocking() {
     curs_set(0);
     noecho();
-    timeout(500);
+    timeout(nonBlockingTimeoutMs);
 }
 
 void writeVersion() {
@@ -210,4 +222,27 @@ void printHelp() {
     printw("o - toggle output on/off");
 
     refresh();
+}
+
+/*
+ * Flushes all available arrow keys out of the buffer
+ *
+ * Sets timeout to 10 ms on exit (i.e. assumes that the window is in
+ * nonblocking mode)
+ */
+void flushArrows()
+{
+    int ch;
+
+    timeout(0);
+
+    do {
+        ch = getch();
+    } while (ch == KEY_UP || ch == KEY_DOWN);
+
+    timeout(nonBlockingTimeoutMs);
+
+    if (ch != ERR) {
+        ungetch(ch);
+    }
 }
