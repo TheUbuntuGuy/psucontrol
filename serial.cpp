@@ -11,6 +11,7 @@
 #include <cstdlib>
 #include <ncurses.h>
 #include <errno.h>
+#include <math.h>
 #include <termios.h>
 #include <unistd.h>
 #include <stdio.h>
@@ -48,7 +49,7 @@ void setVoltage(int fd, double voltage) {
 
     voltage *= 10;
 
-    sprintf(param, "%03d", (int) voltage);
+    sprintf(param, "%03d", (int) round(voltage));
 
     cmd.append(param);
     cmd.append("\r");
@@ -71,7 +72,7 @@ void setCurrent(int fd, double current) {
 
     current *= currentDivider;
 
-    sprintf(param, "%03d", (int) current);
+    sprintf(param, "%03d", (int) round(current));
 
     cmd.append(param);
     cmd.append("\r");
