@@ -52,6 +52,7 @@ void setVoltage(int fd, double voltage) {
 
     cmd.append(param);
     cmd.append("\r");
+    free(param);
 
     sendData(fd, cmd.c_str());
     readData(fd);
@@ -75,6 +76,7 @@ void setCurrent(int fd, double current) {
 
     cmd.append(param);
     cmd.append("\r");
+    free(param);
 
     sendData(fd, cmd.c_str());
     readData(fd);

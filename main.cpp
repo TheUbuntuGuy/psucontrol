@@ -180,6 +180,7 @@ int main(int argc, char** argv) {
     close(fd);
     //exit curses
     endwin();
+    free(portAddr);
 
     return 0;
 }
