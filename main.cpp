@@ -37,7 +37,7 @@ double currentDivider = 10;
 int main(int argc, char** argv) {
 
     int ch;
-    char* portAddr = (char*) malloc(255 * sizeof (char));
+    char portAddr[255];
     double userFloatInput = 0;
 
     //start curses
@@ -180,7 +180,6 @@ int main(int argc, char** argv) {
     close(fd);
     //exit curses
     endwin();
-    free(portAddr);
 
     return 0;
 }
