@@ -275,7 +275,7 @@ void getCurrent(int fd) {
 
     std::string data = readData(fd);
 
-    if (data.length() == 0) {
+    if (data.length() == 0 || data.length() < 9) {
         return;
     }
 
