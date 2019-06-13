@@ -40,7 +40,7 @@ void setOutput(int fd, bool on) {
  */
 void setVoltage(int fd, double voltage) {
     std::string cmd = "VOLT";
-    char* param = (char*) malloc(4 * sizeof (char));
+    char param[4];
 
     //do nothing for invalid voltage setting
     if (voltage > maxVoltage || voltage < 0) {
@@ -53,7 +53,6 @@ void setVoltage(int fd, double voltage) {
 
     cmd.append(param);
     cmd.append("\r");
-    free(param);
 
     sendData(fd, cmd.c_str());
     readData(fd);
@@ -64,7 +63,7 @@ void setVoltage(int fd, double voltage) {
  */
 void setCurrent(int fd, double current) {
     std::string cmd = "CURR";
-    char* param = (char*) malloc(4 * sizeof (char));
+    char param[4];
 
     //do nothing for invalid current setting
     if (current > maxCurrent || current < 0) {
@@ -77,7 +76,6 @@ void setCurrent(int fd, double current) {
 
     cmd.append(param);
     cmd.append("\r");
-    free(param);
 
     sendData(fd, cmd.c_str());
     readData(fd);
